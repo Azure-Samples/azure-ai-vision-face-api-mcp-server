@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "face_dec": {
+      "command": "/path/to/python",
+      "args": [
+        "/path/to/Face-MCP/server.py"
+      ],
+      "env": {
+        "AZURE_OPENAI_ENDPOINT": "aoai_endpoint",
+        "AZURE_OPENAI_API_KEY": "aoai_key",
+        "FACE_ENDPOINT": "faceapi_endpoint",
+        "FACE_API_KEY": "faceapi_key"
+      }
+    }
+  }
+}
