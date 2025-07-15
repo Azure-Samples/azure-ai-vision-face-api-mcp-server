@@ -1,0 +1,4 @@
+azure-ai-vision-face
+opencv-python
+openai
+fastmcp

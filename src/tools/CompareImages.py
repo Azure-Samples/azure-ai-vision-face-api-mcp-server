@@ -42,7 +42,7 @@ def compare_source_image_to_target_image(
             )
         else:
             if not os.path.exists(source_image):
-                return f"Source image file: {source_image} does not exist."
+                return f"Image file: {source_image} does not exist."
             
             detected_faces_source = face_client.detect(
                 image_content=open(source_image, "rb"),
@@ -52,7 +52,7 @@ def compare_source_image_to_target_image(
             )
         if len(detected_faces_source) < 1:
             return (
-                f"Source image file: {source_image} does not contain any "
+                f"Image file: {source_image} does not contain any "
                 "detectable faces. No comparison can be performed."
             )
         
@@ -66,7 +66,7 @@ def compare_source_image_to_target_image(
             )
         else:
             if not os.path.exists(target_image):
-                return f"Target image file: {target_image} does not exist."
+                return f"Image file: {target_image} does not exist."
             
             detected_faces_target = face_client.detect(
                 image_content=open(target_image, "rb"),
@@ -76,14 +76,14 @@ def compare_source_image_to_target_image(
             )
         if len(detected_faces_target) < 1:
             return (
-                f"Target image file: {target_image} does not contain any "
+                f"Image file: {target_image} does not contain any "
                 "detectable faces. No comparison can be performed."
             )
         if comparison_mode == "exhaustive":
             output_list.append(
                 "Exhaustive comparison is requested. Comparing all detected "
-                "faces in the source image with all detected faces in the "
-                "target image."
+                f"faces in the image file: {source_image} with all detected faces in the "
+                f"image file: {target_image}"
             )
             for detected_face_source in detected_faces_source:
                 similar_faces = face_client.find_similar({
@@ -94,8 +94,8 @@ def compare_source_image_to_target_image(
                 })
                 for similar_face in similar_faces:
                     output_list.append(
-                        f"Source Face ID: {detected_face_source.face_id}, "
-                        f"Target Face ID: {similar_face.face_id}, "
+                        f"Face ID: {detected_face_source.face_id}, "
+                        f"Face ID: {similar_face.face_id}, "
                         f"Verification result: "
                         f"{similar_face.confidence >= identical_threshold}, "
                         f"Confidence: {similar_face.confidence}"
@@ -103,7 +103,7 @@ def compare_source_image_to_target_image(
         elif comparison_mode == "most_similar":
             output_list.append(
                 "Most similar comparison is requested. For each face in the "
-                "source image, the most similar face from the target image "
+                f"image file: {source_image}, the most similar face from the image file: {target_image} "
                 "will be determined."
             )
             for detected_face_source in detected_faces_source:
@@ -115,16 +115,16 @@ def compare_source_image_to_target_image(
                 })
                 if len(similar_faces) > 0:
                     output_list.append(
-                        f"Source Face ID: {detected_face_source.face_id}, "
-                        f"Most similar Target Face ID: {similar_faces[0].face_id}, "
+                        f"Face ID: {detected_face_source.face_id}, "
+                        f"with most similar Face ID: {similar_faces[0].face_id}, "
                         f"Verification result: "
                         f"{similar_faces[0].confidence >= identical_threshold}, "
                         f"Confidence: {similar_faces[0].confidence}"
                     )
                 else:
                     output_list.append(
-                        f"Source Face ID: {detected_face_source.face_id} did not "
-                        "find a similar face in the target image."
+                        f"Face ID: {detected_face_source.face_id} did not "
+                        "find a similar face in another image."
                     )
         else:
             output_list.append(
@@ -142,7 +142,7 @@ def compare_source_image_to_target_image(
             detected_face_source = detected_faces_source[largest_face_index_source]
             face_id_source = detected_face_source.face_id
             output_list.append(
-                f"Source image file: {source_image} contains "
+                f"Image file: {source_image} contains "
                 f"{len(detected_faces_source)} face(s). Using the largest face "
                 f"with Face ID: {face_id_source} for comparison."
             )
@@ -157,7 +157,7 @@ def compare_source_image_to_target_image(
             detected_face_target = detected_faces_target[largest_face_index_target]
             face_id_target = detected_face_target.face_id
             output_list.append(
-                f"Target image file: {target_image} contains "
+                f"Image file: {target_image} contains "
                 f"{len(detected_faces_target)} face(s). Using the largest face "
                 f"with Face ID: {face_id_target} for comparison."
             )
@@ -167,8 +167,8 @@ def compare_source_image_to_target_image(
                 face_id2=face_id_target,
             )
             output_list.append(
-                f"Source Face ID: {face_id_source}, "
-                f"Target Face ID: {face_id_target}, "
+                f"Face ID: {face_id_source}, "
+                f"Face ID: {face_id_target}, "
                 f"Verification result: "
                 f"{verify_result.confidence >= identical_threshold}, "
                 f"Confidence: {verify_result.confidence}"

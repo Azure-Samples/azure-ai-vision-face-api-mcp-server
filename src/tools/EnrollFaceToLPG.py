@@ -16,6 +16,7 @@ def enroll_face_to_group(
     person_name: Annotated[str, Field(description=EnrollFaceToLPGConfig.ARGS_PERSON_NAME)],
     group_uuid: Annotated[str, Field(description=EnrollFaceToLPGConfig.ARGS_GROUP_UUID)],
     is_url: Annotated[bool, Field(description=EnrollFaceToLPGConfig.ARGS_IS_URL)] = False,
+    check_quality: Annotated[bool, Field(description=EnrollFaceToLPGConfig.ARGS_CHECK_QUALITY)] = True
 ):
     ENDPOINT = os.getenv("FACE_ENDPOINT")
     KEY = os.getenv("FACE_API_KEY")
@@ -71,11 +72,14 @@ def enroll_face_to_group(
                     "Ignoring this image."
                 )
                 continue
-            filtered_faces = [
-                face for face in detected_faces
-                if face.face_attributes.quality_for_recognition ==
-                QualityForRecognition.HIGH
-            ]
+            if check_quality is False:
+                filtered_faces = detected_faces
+            else:
+                filtered_faces = [
+                    face for face in detected_faces
+                    if face.face_attributes.quality_for_recognition ==
+                    QualityForRecognition.HIGH
+                ]
             if len(filtered_faces) < 1:
                 output_list.append(
                     f"Image file: {file_path} contains {len(detected_faces)} "
@@ -86,8 +90,7 @@ def enroll_face_to_group(
             elif len(filtered_faces) == 1:
                 detected_face = filtered_faces[0]
                 output_list.append(
-                    f"Image file: {file_path} contains 1 face with high "
-                    "quality for recognition."
+                    f"Image file: {file_path} contains 1 face for recognition."
                 )
             else:
                 detected_faces_area_list = [
@@ -99,15 +102,8 @@ def enroll_face_to_group(
                 )
                 detected_face = filtered_faces[largest_face_index]
                 output_list.append(
-                    f"Image file: {file_path} contains more than 1 face. "
-                    "Seletecting the largest face with high quality."
+                    f"Image file: {file_path} contains more than 1 face for recognition. Seletecting the largest face."
                 )
-            if detected_face is None:
-                output_list.append(
-                    "Containing no face with high quality for recognition. "
-                    "Skipping this image."
-                )
-                continue
             face_admin_client.large_person_group.add_face(
                 large_person_group_id=UUID,
                 person_id=new_person.person_id,

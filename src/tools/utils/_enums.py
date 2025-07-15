@@ -23,6 +23,7 @@ class EnrollFaceToLPGConfig(str, Enum):
     ARGS_IS_URL = "Whether the file_path is a remote file URL or a local file path. YOU (MCP) should set this to True if the file_path is a URL, otherwise set it to False."
     ARGS_PERSON_NAME = "The human-readable name of the person to be enrolled."
     ARGS_GROUP_UUID = "The UUID of the person group to which the person will be enrolled."
+    ARGS_CHECK_QUALITY = "Whether to check the quality of the images before enrolling. Default is True. If set to True, the function will check if the images are suitable for face recognition and will not enroll if the quality is insufficient."
 
 
 class IdentifyFaceInLPGConfig(str, Enum):

@@ -6,10 +6,10 @@
         "/path/to/Face-MCP/server.py"
       ],
       "env": {
-        "AZURE_OPENAI_ENDPOINT": "aoai_endpoint",
-        "AZURE_OPENAI_API_KEY": "aoai_key",
         "FACE_ENDPOINT": "faceapi_endpoint",
-        "FACE_API_KEY": "faceapi_key"
+        "FACE_API_KEY": "faceapi_key",
+        "AZURE_OPENAI_ENDPOINT": "aoai_endpoint",
+        "AZURE_OPENAI_API_KEY": "aoai_key"
       }
     }
   }
