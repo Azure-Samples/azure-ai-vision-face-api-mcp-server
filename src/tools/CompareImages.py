@@ -173,4 +173,9 @@ def compare_source_image_to_target_image(
                 f"{verify_result.confidence >= identical_threshold}, "
                 f"Confidence: {verify_result.confidence}"
             )
+        output_list.append(
+            f"The current comparison mode is: {comparison_mode}. "
+            "This function supports three comparison modes: exhaustive, most_similar, and largest_face. "
+            "You can choose other modes if you want to have a different comparison behavior."
+        )
         return "\n---\n".join(output_list)

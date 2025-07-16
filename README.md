@@ -9,18 +9,23 @@ For more information, visit [Face API](https://learn.microsoft.com/en-us/rest/ap
 ### Installation
 #### 1. Using PIP with python 3.10+
 ```bash
+git clone Azure-Samples/azure-ai-vision-face-api-mcp-server
+cd azure-ai-vision-face-api-mcp-server
 pip install -r requirements.txt
 ```
 
 #### 2. Azure AI Vision Face API
 [Create a Face resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesFace) in the Azure portal and obtain a key and endpoint URL to call face API.
 
-#### 3. Sample for VS Code
+#### 3. (Optional) Create a GPT deployment on Azure OpenAI
+To enable the open-set face attribute detection, you should setup a deployment of gpt-4.1 on Azure OpenAI and fill up the environment variables `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_API_KEY`. For more information, visit [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/overview)
+
+#### 4. Sample for VS Code
 Rename `.vscode/mcp-bp.json` to `.vscode/mcp.json` and fill up the full python path and the api key. The required environment variables are `FACE_ENDPOINT` and `FACE_API_KEY`.
 ```json
 {
   "servers": {
-    "face_dec":{
+    "azure_ai_vision_face_api_mcp_server":{
       "command": "/path/to/python",
       "args": ["/path/to/Face-MCP/server.py"],
       "env": {
@@ -33,9 +38,6 @@ Rename `.vscode/mcp-bp.json` to `.vscode/mcp.json` and fill up the full python p
   }
 }
 ```
-
-#### 4. (Optional) Create a GPT deployment on Azure OpenAI
-To enable the open-set face attribute detection, you should setup a deployment of gpt-4.1 on Azure OpenAI and fill up the environment variables `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_API_KEY`. For more information, visit [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/overview)
 
 #### 5. Interact with our MCP tools using VS Code Copilot
 Follow this [guide](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_add-an-mcp-server) to add our MCP tools in the workspace and [start a conversation with GitHub Copilot](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_use-mcp-tools-in-agent-mode) and use MCP tools in agent mode leveraging GPT-4.1.
@@ -63,9 +65,9 @@ Check all the faces' age and gender inside https://raw.githubusercontent.com/Azu
 Compare the identification1.jpg with https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/refs/heads/master/Face/images/findsimilar.jpg
 ```
 
-2. Compare two folders containing multiple face images:
+2. Compare the similarity between one image and another image folder:
 ```
-Compare all the images in reco/Bob and with reco/Emily
+Compare test-image-person-group.jpg with all the images in reco/Bob
 ```
 
 ### Face Recognition
