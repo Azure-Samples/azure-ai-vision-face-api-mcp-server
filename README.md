@@ -9,35 +9,47 @@ For more information, visit [Face API](https://learn.microsoft.com/en-us/rest/ap
 ### Installation
 #### 1. Using PIP with python 3.10+
 ```bash
-git clone Azure-Samples/azure-ai-vision-face-api-mcp-server
+git clone https://github.com/Azure-Samples/azure-ai-vision-face-api-mcp-server.git
 cd azure-ai-vision-face-api-mcp-server
 pip install -r requirements.txt
 ```
 
-#### 2. Azure AI Vision Face API
-[Create a Face resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesFace) in the Azure portal and obtain a key and endpoint URL to call face API.
+#### 2. Set Up Azure AI Vision Face API
+- Go to the [Azure Portal](https://portal.azure.com/#create/Microsoft.CognitiveServicesFace) and create a new **Face** resource.
+- After deployment, navigate to the resource and copy the **Endpoint URL** and one of the **Keys** from the "Keys and Endpoint" section.
+- You will set the following environment variables in your [configuration](.vscode/mcp-bp.json):
+  - `FACE_ENDPOINT`: The endpoint URL of your Azure Face API deployment.
+  - `FACE_API_KEY` : The API key for your Azure Face API resource.
 
-#### 3. (Optional) Create a GPT deployment on Azure OpenAI
-To enable the open-set face attribute detection, you should setup a deployment of gpt-4.1 on Azure OpenAI and fill up the environment variables `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_API_KEY`. For more information, visit [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/overview)
+#### 3. (Optional) Deploy GPT-4.1 on Azure OpenAI for Open-Set Attribute Detection
+- To enable open-set face attribute detection, you need access to Azure OpenAI.
+- In the [Azure Portal](https://portal.azure.com/), create an Azure OpenAI resource and deploy a GPT-4.1 model.
+- Once deployed, obtain the **Endpoint URL** and **API Key** for your OpenAI resource.
+- You will set the following environment variables in your [configuration](.vscode/mcp-bp.json):
+  - `AZURE_OPENAI_ENDPOINT`: The endpoint URL of your Azure OpenAI deployment.
+  - `AZURE_OPENAI_API_KEY`: The API key for your Azure OpenAI resource.
+- For more details about using , see the [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/overview).
 
-#### 4. Sample for VS Code
-Rename `.vscode/mcp-bp.json` to `.vscode/mcp.json` and fill up the full python path and the api key. The required environment variables are `FACE_ENDPOINT` and `FACE_API_KEY`.
-```json
-{
-  "servers": {
-    "azure_ai_vision_face_api_mcp_server":{
-      "command": "/path/to/python",
-      "args": ["/path/to/Face-MCP/server.py"],
-      "env": {
-        "FACE_ENDPOINT":"faceapi_endpoint",
-        "FACE_API_KEY":"faceapi_key",
-        "AZURE_OPENAI_ENDPOINT":"aoai_endpoint",
-        "AZURE_OPENAI_API_KEY":"aoai_key"
+#### 4. Configure VS Code for MCP Server Integration
+- Copy the file `.vscode/mcp-bp.json` and rename it to `.vscode/mcp.json` in your project directory.
+- Edit `.vscode/mcp.json` and fill up the full python path and the api key. The required environment variables are `FACE_ENDPOINT` and `FACE_API_KEY` .
+- Example configuration:
+  ```json
+  {
+    "servers": {
+      "azure_ai_vision_face_api_mcp_server": {
+        "command": "/path/to/python",
+        "args": ["/path/to/azure-ai-vision-face-api-mcp-server/server.py"],
+        "env": {
+          "FACE_ENDPOINT": "your_faceapi_endpoint",
+          "FACE_API_KEY": "your_faceapi_key",
+          "AZURE_OPENAI_ENDPOINT": "your_aoai_endpoint",
+          "AZURE_OPENAI_API_KEY": "your_aoai_key"
+        }
       }
     }
   }
-}
-```
+  ```
 
 #### 5. Interact with our MCP tools using VS Code Copilot
 Follow this [guide](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_add-an-mcp-server) to add our MCP tools in the workspace and [start a conversation with GitHub Copilot](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_use-mcp-tools-in-agent-mode) and use MCP tools in agent mode leveraging GPT-4.1.
