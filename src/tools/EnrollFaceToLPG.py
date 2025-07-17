@@ -1,13 +1,17 @@
-import os
-import base64
 
-from azure.core.credentials import AzureKeyCredential
+import os
+from typing import Annotated
+
 from azure.ai.vision.face import FaceAdministrationClient, FaceClient
-from azure.ai.vision.face.models import FaceDetectionModel, FaceRecognitionModel, FaceAttributeTypeRecognition04, QualityForRecognition
-import cv2
-from openai import AzureOpenAI
-from typing import Annotated, Literal
+from azure.ai.vision.face.models import (
+    FaceAttributeTypeRecognition04,
+    FaceDetectionModel,
+    FaceRecognitionModel,
+    QualityForRecognition,
+)
+from azure.core.credentials import AzureKeyCredential
 from pydantic import Field
+
 from .utils._enums import EnrollFaceToLPGConfig
 
 
@@ -91,6 +95,8 @@ def enroll_face_to_group(
                 detected_face = filtered_faces[0]
                 output_list.append(
                     f"Image file: {file_path} contains 1 face for recognition."
+                    f" Face ID: {detected_face.face_id} "
+                    f"(bounding box: {detected_face.face_rectangle})."
                 )
             else:
                 detected_faces_area_list = [
@@ -103,6 +109,8 @@ def enroll_face_to_group(
                 detected_face = filtered_faces[largest_face_index]
                 output_list.append(
                     f"Image file: {file_path} contains more than 1 face for recognition. Seletecting the largest face."
+                    f" Face ID: {detected_face.face_id} "
+                    f"(bounding box: {detected_face.face_rectangle})."
                 )
             face_admin_client.large_person_group.add_face(
                 large_person_group_id=UUID,

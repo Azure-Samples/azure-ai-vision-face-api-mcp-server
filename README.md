@@ -16,7 +16,7 @@ pip install -r requirements.txt
 
 #### 2. Set Up Azure AI Vision Face API
 - Go to the [Azure Portal](https://portal.azure.com/#create/Microsoft.CognitiveServicesFace) and create a new **Face** resource.
-- After deployment, navigate to the resource and copy the **Endpoint URL** and one of the **Keys** from the "Keys and Endpoint" section.
+- After deployment, navigate to the resource and copy the **Endpoint URL** and one of the **Key** from the "Keys and Endpoint" section.
 - You will set the following environment variables in your [configuration](.vscode/mcp-bp.json):
   - `FACE_ENDPOINT`: The endpoint URL of your Azure Face API deployment.
   - `FACE_API_KEY` : The API key for your Azure Face API resource.
@@ -51,10 +51,12 @@ pip install -r requirements.txt
   }
   ```
 
-#### 5. Interact with our MCP tools using VS Code Copilot
-Follow this [guide](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_add-an-mcp-server) to add our MCP tools in the workspace and [start a conversation with GitHub Copilot](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_use-mcp-tools-in-agent-mode) and use MCP tools in agent mode leveraging GPT-4.1.
+#### 5. Interact with our MCP tools using Visual Studio Code GitHub Copilot
+- Install [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) Visual Studio Code extension.
+- Follow this [guide](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_add-an-mcp-server) to add our MCP tools in the workspace and [start a conversation with GitHub Copilot](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_use-mcp-tools-in-agent-mode) and use MCP tools in agent mode leveraging GPT-4.1.
 
 ## Example Prompts
+- You may be prompted to agree to use the MCP tool the first time you use each MCP tool. Please press `Continue` to proceed.
 ### Face Attribute Detection
 1. Test the face attribute detection:
 ```

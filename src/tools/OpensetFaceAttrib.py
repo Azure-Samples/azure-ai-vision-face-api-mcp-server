@@ -1,16 +1,17 @@
-import os
 import base64
-
-from azure.core.credentials import AzureKeyCredential
-from azure.ai.vision.face import FaceAdministrationClient, FaceClient
-from azure.ai.vision.face.models import FaceDetectionModel, FaceRecognitionModel, FaceAttributeTypeRecognition04, QualityForRecognition
-import cv2
-from openai import AzureOpenAI
-from typing import Annotated, Literal
-from pydantic import Field
-from .utils._enums import OpensetFaceAttribConfig
-import requests
+import os
 import tempfile
+from typing import Annotated
+
+from azure.ai.vision.face import FaceClient
+from azure.ai.vision.face.models import FaceDetectionModel, FaceRecognitionModel
+from azure.core.credentials import AzureKeyCredential
+import cv2
+from openai import AzureOpenAI, APIConnectionError
+from pydantic import Field
+import requests
+
+from .utils._enums import OpensetFaceAttribConfig
 
 
 def get_face_openset_attrib(
@@ -96,15 +97,19 @@ def get_face_openset_attrib(
                 "content": input_prompt
             }
         ]
-        response = azure_client.chat.completions.create(
-            model='gpt-4.1',
-            messages=messages,
-            max_tokens=20
-        )
+        try:
+            response = azure_client.chat.completions.create(
+                model='gpt-4.1',
+                messages=messages,
+                max_tokens=20
+            )
+        except APIConnectionError:
+            return OpensetFaceAttribConfig.ERROR_AOAI_NOT_CONFIGURED
         response = response.choices[0].message.content
         result = f"""
         Open-set Face Detection Results: 
-        'faceId': '{detected_face.face_id}', 
+        'Face ID': '{detected_face.face_id}' 
+        'Bounding Box': {detected_face.face_rectangle}
         '{attribute_name}': '{response}'
         """
         results.append(result)

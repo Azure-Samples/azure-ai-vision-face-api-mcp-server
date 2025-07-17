@@ -2,12 +2,12 @@ from enum import Enum
 
 class CompareImagesConfig(str, Enum):
     TOOL_NAME = "azure_face_recognition_compare_two_images"
-    TOOL_DESC = "Compare the similarity of faces in two images to determine if they belong to the same person."
+    TOOL_DESC = "Compare the similarity of faces in two images to determine if they belong to the same person. This function supports three comparison modes: 'largest_face', 'most_similar', and 'exhaustive'. YOU (MCP) must ask the user to choose one of these modes for each comparison with detailed explanation for each mode. YOU (MCP) must use the exact same explanation as following: 'largest_face' will compare only the largest face in both image, 'most_similar' will find the most similar face in the target image from each face in source image, and 'exhaustive' will compare all faces in both images."
     ARGS_SOURCE_IMAGE = "The absolute file path to the source image file. If the file path is the local file path, complete and fix the file path. If the source image is the remote file path URL, set is_source_image_url to True."
     ARGS_TARGET_IMAGE = "The absolute file path to the target image file. If the file path is the local file path, complete and fix the file path. If the target image is the remote file path URL, set is_target_image_url to True."
     ARGS_IS_SOURCE_IMAGE_URL = "Whether the source image is a remote file URL or a local file path. YOU (MCP) should set this to True if the source image is a URL, otherwise set it to False."
     ARGS_IS_TARGET_IMAGE_URL = "Whether the target image is a remote file URL or a local file path. YOU (MCP) should set this to True if the target image is a URL, otherwise set it to False."
-    ARGS_COMPARISON_MODE = "The mode of comparison: 'largest_face', 'most_similar', or 'exhaustive'. When source_image or target_image contains more than one face, 'exhaustive' will compare all faces in both images, 'most_similar' will use the find_similar API to determine the best match for each face in the source image, and 'largest_face' will compare only the largest face in each image. YOU (MCP) must ask the user to choose one of these modes for each comparison."
+    ARGS_COMPARISON_MODE = "The mode of comparison: 'largest_face', 'most_similar', or 'exhaustive'. When source_image or target_image contains more than one face, 'exhaustive' will compare all faces in both images, 'most_similar' will use the find_similar API to determine the best match for each face in the source image, and 'largest_face' will compare only the largest face in each image. YOU (MCP) must ask the user to choose one of these modes for each comparison with detail explanation for each mode."
     ARGS_THRESHOLD = "The threshold for determining if two faces are identical. Default is 0.5."
 
 
@@ -41,6 +41,7 @@ class OpensetFaceAttribConfig(str, Enum):
     ARGS_ATTRIBUTE_NAME = "The name of the attribute to retrieve."
     ARGS_DILATION = "The dilation factor to apply to the detected face rectangle. Default is 1.25, which enlarges the rectangle by 25% on each dimension."
     ARGS_IS_URL = "Whether the file_path is a remote file URL or a local file path. YOU (MCP) should set this to True if the file_path is a URL, otherwise set it to False."
+    ERROR_AOAI_NOT_CONFIGURED = "The Azure OpenAI did not receive any image. To enable open-set face attribute detection, you need access to Azure OpenAI. Please check your .vscode/mcp.json configuration file and ensure the AZURE_OPENAI_ENDPOINT and AZURE_OPENAI_API_KEY are set correctly. After setting the environment variables, please restart the MCP server and try again."
 
 class AzureFaceAttribConfig(str, Enum):
     TOOL_NAME = "azure_face_detection_attribute"

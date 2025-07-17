@@ -1,13 +1,11 @@
 import os
-import base64
+from typing import Annotated
 
-from azure.core.credentials import AzureKeyCredential
+from pydantic import Field
 from azure.ai.vision.face import FaceClient
 from azure.ai.vision.face.models import FaceDetectionModel, FaceRecognitionModel
-import cv2
-from openai import AzureOpenAI
-from typing import Annotated, Literal
-from pydantic import Field
+from azure.core.credentials import AzureKeyCredential
+
 from .utils._enums import IdentifyFaceInLPGConfig
 
 
@@ -48,22 +46,25 @@ def identify_face_from_group(
                 f"{file_path}"
             )
         face_ids = [face.face_id for face in faces]
+        face_id_to_bbox = {face.face_id: face.face_rectangle for face in faces}
         identify_results = face_client.identify_from_large_person_group(
             face_ids=face_ids,
             large_person_group_id=group_uuid,
         )
         output_list = []
         for idx, identify_result in enumerate(identify_results):
+            face_id = face_ids[idx]
+            bbox = face_id_to_bbox.get(face_id, None)
             if identify_result.candidates:
                 output_list.append(
-                    f"Face ID {face_ids[idx]} in the image was identified as "
+                    f"Face ID {face_id} (bounding box: {bbox}) in the image was identified as "
                     f"person ID: {identify_result.candidates[0]['personId']} "
                     f"with confidence: {identify_result.candidates[0]['confidence']} "
                     f"in the group with UUID: {group_uuid}"
                 )
             else:
                 output_list.append(
-                    f"Face ID {face_ids[idx]} in the image could not be "
+                    f"Face ID {face_id} (bounding box: {bbox}) in the image could not be "
                     f"identified in the group with UUID: {group_uuid}"
                 )
     return "\n---\n".join(output_list)

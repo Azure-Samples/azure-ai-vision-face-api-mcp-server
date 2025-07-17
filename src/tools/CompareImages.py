@@ -1,15 +1,11 @@
-from mcp.server.fastmcp import FastMCP
-
 import os
-import base64
+from typing import Annotated, Literal
 
-from azure.core.credentials import AzureKeyCredential
 from azure.ai.vision.face import FaceClient
 from azure.ai.vision.face.models import FaceDetectionModel, FaceRecognitionModel
-import cv2
-from openai import AzureOpenAI
-from typing import Annotated, Literal
+from azure.core.credentials import AzureKeyCredential
 from pydantic import Field
+
 from .utils._enums import CompareImagesConfig
 
 
@@ -94,8 +90,10 @@ def compare_source_image_to_target_image(
                 })
                 for similar_face in similar_faces:
                     output_list.append(
-                        f"Face ID: {detected_face_source.face_id}, "
-                        f"Face ID: {similar_face.face_id}, "
+                        f"Face ID: {detected_face_source.face_id} "
+                        f"(bounding box: {detected_face_source.face_rectangle}), "
+                        f"Face ID: {similar_face.face_id} "
+                        f"(bounding box: {similar_face.face_rectangle}), "
                         f"Verification result: "
                         f"{similar_face.confidence >= identical_threshold}, "
                         f"Confidence: {similar_face.confidence}"
@@ -115,15 +113,18 @@ def compare_source_image_to_target_image(
                 })
                 if len(similar_faces) > 0:
                     output_list.append(
-                        f"Face ID: {detected_face_source.face_id}, "
-                        f"with most similar Face ID: {similar_faces[0].face_id}, "
+                        f"Face ID: {detected_face_source.face_id} "
+                        f"(bounding box: {detected_face_source.face_rectangle}), "
+                        f"with most similar Face ID: {similar_faces[0].face_id} "
+                        f"(bounding box: {similar_faces[0].face_rectangle}), "
                         f"Verification result: "
                         f"{similar_faces[0].confidence >= identical_threshold}, "
                         f"Confidence: {similar_faces[0].confidence}"
                     )
                 else:
                     output_list.append(
-                        f"Face ID: {detected_face_source.face_id} did not "
+                        f"Face ID: {detected_face_source.face_id} "
+                        f"(bounding box: {detected_face_source.face_rectangle}) did not "
                         "find a similar face in another image."
                     )
         else:
@@ -144,7 +145,8 @@ def compare_source_image_to_target_image(
             output_list.append(
                 f"Image file: {source_image} contains "
                 f"{len(detected_faces_source)} face(s). Using the largest face "
-                f"with Face ID: {face_id_source} for comparison."
+                f"with Face ID: {face_id_source} "
+                f"(bounding box: {detected_face_source.face_rectangle}) for comparison."
             )
             # select the largest face in target image
             detected_faces_area_list_target = [
@@ -159,7 +161,8 @@ def compare_source_image_to_target_image(
             output_list.append(
                 f"Image file: {target_image} contains "
                 f"{len(detected_faces_target)} face(s). Using the largest face "
-                f"with Face ID: {face_id_target} for comparison."
+                f"with Face ID: {face_id_target} "
+                f"(bounding box: {detected_face_target.face_rectangle}) for comparison."
             )
             # Compare the two faces
             verify_result = face_client.verify_face_to_face(
@@ -167,8 +170,8 @@ def compare_source_image_to_target_image(
                 face_id2=face_id_target,
             )
             output_list.append(
-                f"Face ID: {face_id_source}, "
-                f"Face ID: {face_id_target}, "
+                f"Face ID: {face_id_source} (bounding box: {detected_face_source.face_rectangle}), "
+                f"Face ID: {face_id_target} (bounding box: {detected_face_target.face_rectangle}), "
                 f"Verification result: "
                 f"{verify_result.confidence >= identical_threshold}, "
                 f"Confidence: {verify_result.confidence}"

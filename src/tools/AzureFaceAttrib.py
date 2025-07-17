@@ -1,13 +1,15 @@
 import os
-import base64
+from typing import Annotated
 
+from azure.ai.vision.face import FaceClient
+from azure.ai.vision.face.models import (
+    FaceAttributeType,
+    FaceDetectionModel,
+    FaceRecognitionModel,
+)
 from azure.core.credentials import AzureKeyCredential
-from azure.ai.vision.face import FaceAdministrationClient, FaceClient
-from azure.ai.vision.face.models import FaceAttributeType, FaceDetectionModel, FaceRecognitionModel
-import cv2
-from openai import AzureOpenAI
-from typing import Annotated, Literal
 from pydantic import Field
+
 from .utils._enums import AzureFaceAttribConfig
 
 
