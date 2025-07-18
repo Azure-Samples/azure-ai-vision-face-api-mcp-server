@@ -19,7 +19,7 @@ git clone https://github.com/Azure-Samples/azure-ai-vision-face-api-mcp-server.g
 #### 3. Set Up Azure AI Vision Face API
 - Go to the [Azure Portal](https://portal.azure.com/#create/Microsoft.CognitiveServicesFace) and create a new **Face** resource.
 - After deployment, navigate to the resource and copy the **Endpoint URL** and one of the **Key** from the "Keys and Endpoint" section.
-- You will be asked to input the following environment variables at the first time you start the mcp server:
+You will be prompted to enter the following environment variables the first time you start the MCP server:
   - `Azure AI Face API Endpoint`: The endpoint URL of your Azure Face API deployment.
   - `Azure AI Face API Key`: The API key for your Azure Face API resource.
 
@@ -27,7 +27,7 @@ git clone https://github.com/Azure-Samples/azure-ai-vision-face-api-mcp-server.g
 - To enable open-set face attribute detection, you need access to Azure OpenAI.
 - In the [Azure Portal](https://portal.azure.com/), create an Azure OpenAI resource and deploy a GPT-4.1 model.
 - Once deployed, obtain the **Endpoint URL** and **API Key** for your OpenAI resource.
-- You will be asked to input the following environment variables at the first time you start the mcp server:
+- You will be prompted to enter the following environment variables the first time you start the MCP server:
   - `Azure OpenAI Endpoint`: The endpoint URL of your Azure OpenAI deployment.
   - `Azure OpenAI API Key`: The API key for your Azure OpenAI resource.
 - For more details about using , see the [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/overview).
