@@ -7,51 +7,33 @@ For more information, visit [Face API](https://learn.microsoft.com/en-us/rest/ap
 
 ## Running MCP Server
 ### Installation
-#### 1. Using PIP with python 3.10+
+#### 1. Using UV
+Refer to the [Installation Guide](https://docs.astral.sh/uv/getting-started/installation/#__tabbed_1_2) for instructions on installing uv.
+
+#### 2. Clone this project
+We provide several example images in the [example](example) folder. Please clone this project to try the [example prompts](#example-prompts) below.
 ```bash
 git clone https://github.com/Azure-Samples/azure-ai-vision-face-api-mcp-server.git
-cd azure-ai-vision-face-api-mcp-server
-pip install -r requirements.txt
 ```
 
-#### 2. Set Up Azure AI Vision Face API
+#### 3. Set Up Azure AI Vision Face API
 - Go to the [Azure Portal](https://portal.azure.com/#create/Microsoft.CognitiveServicesFace) and create a new **Face** resource.
 - After deployment, navigate to the resource and copy the **Endpoint URL** and one of the **Key** from the "Keys and Endpoint" section.
-- You will set the following environment variables in your [configuration](.vscode/mcp-bp.json):
-  - `FACE_ENDPOINT`: The endpoint URL of your Azure Face API deployment.
-  - `FACE_API_KEY` : The API key for your Azure Face API resource.
+- You will be asked to input the following environment variables at the first time you start the mcp server:
+  - `Azure AI Face API Endpoint`: The endpoint URL of your Azure Face API deployment.
+  - `Azure AI Face API Key`: The API key for your Azure Face API resource.
 
-#### 3. (Optional) Deploy GPT-4.1 on Azure OpenAI for Open-Set Attribute Detection
+#### 4. (Optional) Deploy GPT-4.1 on Azure OpenAI for Open-Set Attribute Detection
 - To enable open-set face attribute detection, you need access to Azure OpenAI.
 - In the [Azure Portal](https://portal.azure.com/), create an Azure OpenAI resource and deploy a GPT-4.1 model.
 - Once deployed, obtain the **Endpoint URL** and **API Key** for your OpenAI resource.
-- You will set the following environment variables in your [configuration](.vscode/mcp-bp.json):
-  - `AZURE_OPENAI_ENDPOINT`: The endpoint URL of your Azure OpenAI deployment.
-  - `AZURE_OPENAI_API_KEY`: The API key for your Azure OpenAI resource.
+- You will be asked to input the following environment variables at the first time you start the mcp server:
+  - `Azure OpenAI Endpoint`: The endpoint URL of your Azure OpenAI deployment.
+  - `Azure OpenAI API Key`: The API key for your Azure OpenAI resource.
 - For more details about using , see the [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/overview).
 
-#### 4. Configure VS Code for MCP Server Integration
-- Copy the file `.vscode/mcp-bp.json` and rename it to `.vscode/mcp.json` in your project directory.
-- Edit `.vscode/mcp.json` and fill up the full python path and the api key. The required environment variables are `FACE_ENDPOINT` and `FACE_API_KEY` .
-- Example configuration:
-  ```json
-  {
-    "servers": {
-      "azure_ai_vision_face_api_mcp_server": {
-        "command": "/path/to/python",
-        "args": ["/path/to/azure-ai-vision-face-api-mcp-server/server.py"],
-        "env": {
-          "FACE_ENDPOINT": "your_faceapi_endpoint",
-          "FACE_API_KEY": "your_faceapi_key",
-          "AZURE_OPENAI_ENDPOINT": "your_aoai_endpoint",
-          "AZURE_OPENAI_API_KEY": "your_aoai_key"
-        }
-      }
-    }
-  }
-  ```
-
 #### 5. Interact with our MCP tools using Visual Studio Code GitHub Copilot
+- Copy the file `.vscode/mcp-bp.json` and rename it to `.vscode/mcp.json` in your project directory and press `Start` above the `azure_ai_vision_face_api_mcp_server` in `.vscode/mcp.json`.
 - Install [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) Visual Studio Code extension.
 - Follow this [guide](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_add-an-mcp-server) to add our MCP tools in the workspace and [start a conversation with GitHub Copilot](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_use-mcp-tools-in-agent-mode) and use MCP tools in agent mode leveraging GPT-4.1.
 
