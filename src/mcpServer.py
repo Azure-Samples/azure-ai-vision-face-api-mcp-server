@@ -1,6 +1,6 @@
 
 from mcp.server.fastmcp import FastMCP
-from .tools.utils._enums import (
+from tools.utils._enums import (
     CompareImagesConfig, 
     CreateLPGConfig, 
     EnrollFaceToLPGConfig,
@@ -8,12 +8,12 @@ from .tools.utils._enums import (
     OpensetFaceAttribConfig,
     AzureFaceAttribConfig
 )
-from .tools.CompareImages import compare_source_image_to_target_image
-from .tools.CreateLPG import create_large_person_group
-from .tools.EnrollFaceToLPG import enroll_face_to_group
-from .tools.IdentifyFaceInLPG import identify_face_from_group
-from .tools.OpensetFaceAttrib import get_face_openset_attrib
-from .tools.AzureFaceAttrib import get_face_dect
+from tools.CompareImages import compare_source_image_to_target_image
+from tools.CreateLPG import create_large_person_group
+from tools.EnrollFaceToLPG import enroll_face_to_group
+from tools.IdentifyFaceInLPG import identify_face_from_group
+from tools.OpensetFaceAttrib import get_face_openset_attrib
+from tools.AzureFaceAttrib import get_face_dect
 
 
 class FaceMCPServer():
@@ -53,3 +53,8 @@ class FaceMCPServer():
         
     def run(self):
         self.mcp.run(transport='stdio')
+
+
+def run_server():
+    server = FaceMCPServer()
+    server.run()
