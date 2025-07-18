@@ -81,7 +81,7 @@ Compare the identification1.jpg with https://raw.githubusercontent.com/Azure-Sam
 
 2. Compare the similarity between one image and another image folder:
 ```
-Compare test-image-person-group.jpg with all the images in reco/Bob
+Compare test-image-person-group.jpg with all the images in reco/Bob" using the "most_similar" option
 ```
 
 ### Face Recognition

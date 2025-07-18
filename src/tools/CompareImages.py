@@ -81,6 +81,7 @@ def compare_source_image_to_target_image(
                 f"faces in the image file: {source_image} with all detected faces in the "
                 f"image file: {target_image}"
             )
+            target_face_id_to_bbox = {face.face_id: face.face_rectangle for face in detected_faces_target}
             for detected_face_source in detected_faces_source:
                 similar_faces = face_client.find_similar({
                     "faceId": detected_face_source.face_id,
@@ -93,7 +94,7 @@ def compare_source_image_to_target_image(
                         f"Face ID: {detected_face_source.face_id} "
                         f"(bounding box: {detected_face_source.face_rectangle}), "
                         f"Face ID: {similar_face.face_id} "
-                        f"(bounding box: {similar_face.face_rectangle}), "
+                        f"(bounding box: {target_face_id_to_bbox.get(similar_face.face_id, None)}), "
                         f"Verification result: "
                         f"{similar_face.confidence >= identical_threshold}, "
                         f"Confidence: {similar_face.confidence}"
@@ -104,6 +105,7 @@ def compare_source_image_to_target_image(
                 f"image file: {source_image}, the most similar face from the image file: {target_image} "
                 "will be determined."
             )
+            target_face_id_to_bbox = {face.face_id: face.face_rectangle for face in detected_faces_target}
             for detected_face_source in detected_faces_source:
                 similar_faces = face_client.find_similar({
                     "faceId": detected_face_source.face_id,
@@ -116,7 +118,7 @@ def compare_source_image_to_target_image(
                         f"Face ID: {detected_face_source.face_id} "
                         f"(bounding box: {detected_face_source.face_rectangle}), "
                         f"with most similar Face ID: {similar_faces[0].face_id} "
-                        f"(bounding box: {similar_faces[0].face_rectangle}), "
+                        f"(bounding box: {target_face_id_to_bbox.get(similar_faces[0].face_id, None)}), "
                         f"Verification result: "
                         f"{similar_faces[0].confidence >= identical_threshold}, "
                         f"Confidence: {similar_faces[0].confidence}"

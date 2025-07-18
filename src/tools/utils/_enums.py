@@ -13,7 +13,7 @@ class CompareImagesConfig(str, Enum):
 
 class CreateLPGConfig(str, Enum):
     TOOL_NAME = "azure_face_recognition_create_large_person_group"
-    TOOL_DESC = "Create a large person group for face recognition leveraging thea azure ai face recognition API."
+    TOOL_DESC = "Create a large person group for face recognition leveraging the azure ai face recognition API."
 
 
 class EnrollFaceToLPGConfig(str, Enum):
@@ -36,7 +36,7 @@ class IdentifyFaceInLPGConfig(str, Enum):
 
 class OpensetFaceAttribConfig(str, Enum):
     TOOL_NAME = "azure_face_detection_openset_attribute"
-    TOOL_DESC = "Get the face attribute from the user provided images. This function supports all the possible face or image attributes but excludes the attributes closely related to the following: head pose, glasses, occlusion, blur, exposure, mask, quality, age, and landmarks. This function could be used separately or after the 'azure_face_detection_attribute' function if the user potentially needs any other attribute which is not supported by the 'azure_face_detection_attribute' function."
+    TOOL_DESC = "Get the face attribute from the user provided images. This function supports all the possible face or image attributes but excludes the attributes closely related to the following: head pose, glasses, occlusion, blur, exposure, mask, quality, age, and landmarks. This function could be used separately or after the 'azure_face_detection_attribute' function if the user potentially needs any other attribute which is not supported by the 'azure_face_detection_attribute' function. YOU (MCP) must return the error message if the Azure OpenAI configuration file is not set correctly or the image file is not provided."
     ARGS_FILE_PATH = "The absolute file path to the image file. If the file_path is the local file path, complete and fix the file_path. If the file_path is the remote file_path URL, set is_url to True."
     ARGS_ATTRIBUTE_NAME = "The name of the attribute to retrieve."
     ARGS_DILATION = "The dilation factor to apply to the detected face rectangle. Default is 1.25, which enlarges the rectangle by 25% on each dimension."

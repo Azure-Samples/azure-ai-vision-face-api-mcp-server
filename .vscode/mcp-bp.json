@@ -3,13 +3,13 @@
     "azure_ai_vision_face_api_mcp_server": {
       "command": "/path/to/python",
       "args": [
-        "/path/to/azure_ai_vision_face_api_mcp_server/server.py"
+        "/path/to/azure-ai-vision-face-api-mcp-server/server.py"
       ],
       "env": {
-        "FACE_ENDPOINT": "faceapi_endpoint",
-        "FACE_API_KEY": "faceapi_key",
-        "AZURE_OPENAI_ENDPOINT": "aoai_endpoint",
-        "AZURE_OPENAI_API_KEY": "aoai_key"
+        "FACE_ENDPOINT": "your_faceapi_endpoint",
+        "FACE_API_KEY": "your_faceapi_key",
+        "AZURE_OPENAI_ENDPOINT": "your_aoai_endpoint",
+        "AZURE_OPENAI_API_KEY": "your_aoai_key"
       }
     }
   }
