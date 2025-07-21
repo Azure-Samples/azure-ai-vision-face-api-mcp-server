@@ -22,8 +22,8 @@ def enroll_face_to_group(
     is_url: Annotated[bool, Field(description=EnrollFaceToLPGConfig.ARGS_IS_URL)] = False,
     check_quality: Annotated[bool, Field(description=EnrollFaceToLPGConfig.ARGS_CHECK_QUALITY)] = True
 ):
-    ENDPOINT = os.getenv("FACE_ENDPOINT")
-    KEY = os.getenv("FACE_API_KEY")
+    ENDPOINT = os.getenv("AZURE_FACE_ENDPOINT")
+    KEY = os.getenv("AZURE_FACE_API_KEY")
     UUID = group_uuid
     output_list = []
     with FaceAdministrationClient(

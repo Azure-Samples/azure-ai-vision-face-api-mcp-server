@@ -3,24 +3,26 @@
     {
       "type": "promptString",
       "id": "azure-ai-face-api-key",
-      "description": "Azure AI Face API Key",
+      "description": "Please enter your Azure AI Face API Key.",
       "password": true
     },
     {
       "type": "promptString",
       "id": "azure-ai-face-api-endpoint",
-      "description": "Azure AI Face API Endpoint"
+      "description": "Please enter your Azure AI Face API Endpoint."
     },
     {
       "type": "promptString",
       "id": "azure-openai-api-key",
-      "description": "Azure OpenAI API Key",
-      "password": true
+      "description": "Please enter your Azure OpenAI API Key (optional).",
+      "password": true,
+      "default": "your-azure-openai-api-key"
     },
     {
       "type": "promptString",
       "id": "azure-openai-endpoint",
-      "description": "Azure OpenAI Endpoint"
+      "description": "Please enter your Azure OpenAI Endpoint (optional).",
+      "default": "your-azure-openai-endpoint"
     }
   ],
   "servers": {
@@ -28,10 +30,10 @@
       "command": "uvx",
       "args": ["--from", "git+https://github.com/Azure-Samples/azure-ai-vision-face-api-mcp-server", "azure-face-mcp"],
       "env": {
+        "AZURE_FACE_ENDPOINT":"${input:azure-ai-face-api-endpoint}",
+        "AZURE_FACE_API_KEY":"${input:azure-ai-face-api-key}",
         "AZURE_OPENAI_ENDPOINT":"${input:azure-openai-endpoint}",
-        "AZURE_OPENAI_API_KEY":"${input:azure-openai-api-key}",
-        "FACE_ENDPOINT":"${input:azure-ai-face-api-endpoint}",
-        "FACE_API_KEY":"${input:azure-ai-face-api-key}"
+        "AZURE_OPENAI_API_KEY":"${input:azure-openai-api-key}"
       }
     }
   }

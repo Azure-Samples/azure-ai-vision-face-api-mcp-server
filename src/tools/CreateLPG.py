@@ -8,8 +8,8 @@ from azure.core.credentials import AzureKeyCredential
 
 
 def create_large_person_group():
-    ENDPOINT = os.getenv("FACE_ENDPOINT")
-    KEY = os.getenv("FACE_API_KEY")
+    ENDPOINT = os.getenv("AZURE_FACE_ENDPOINT")
+    KEY = os.getenv("AZURE_FACE_API_KEY")
     group_uuid = str(uuid.uuid4())
 
     with FaceAdministrationClient(

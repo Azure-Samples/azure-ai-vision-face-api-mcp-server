@@ -22,8 +22,8 @@ def get_face_openset_attrib(
 ):
     if file_path is None:
         return "The Azure AI Face API did not receive any image. Please provide an image."
-    ENDPOINT = os.getenv("FACE_ENDPOINT")
-    KEY = os.getenv("FACE_API_KEY")
+    ENDPOINT = os.getenv("AZURE_FACE_ENDPOINT")
+    KEY = os.getenv("AZURE_FACE_API_KEY")
     with FaceClient(
         endpoint=ENDPOINT, credential=AzureKeyCredential(KEY), 
         headers = {"X-MS-AZSDK-Telemetry": "sample=mcp-face-detect-openset-attr"}

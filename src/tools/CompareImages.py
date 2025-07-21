@@ -20,8 +20,8 @@ def compare_source_image_to_target_image(
     is_target_image_url: Annotated[bool, Field(description=CompareImagesConfig.ARGS_IS_TARGET_IMAGE_URL)] = False,
     identical_threshold: Annotated[float, Field(description=CompareImagesConfig.ARGS_THRESHOLD, ge=0.0, le=1.0)] = 0.5
 ):
-    ENDPOINT = os.getenv("FACE_ENDPOINT")
-    KEY = os.getenv("FACE_API_KEY")
+    ENDPOINT = os.getenv("AZURE_FACE_ENDPOINT")
+    KEY = os.getenv("AZURE_FACE_API_KEY")
     output_list = []
     with FaceClient(
         endpoint=ENDPOINT, 

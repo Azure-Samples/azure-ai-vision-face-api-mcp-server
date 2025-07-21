@@ -14,8 +14,8 @@ def identify_face_from_group(
     group_uuid: Annotated[str, Field(description=IdentifyFaceInLPGConfig.ARGS_GROUP_UUID)],
     is_url: Annotated[bool, Field(description=IdentifyFaceInLPGConfig.ARGS_IS_URL)] = False
 ):
-    ENDPOINT = os.getenv("FACE_ENDPOINT")
-    KEY = os.getenv("FACE_API_KEY")
+    ENDPOINT = os.getenv("AZURE_FACE_ENDPOINT")
+    KEY = os.getenv("AZURE_FACE_API_KEY")
     output_list = []
     with FaceClient(
         endpoint=ENDPOINT, credential=AzureKeyCredential(KEY), 

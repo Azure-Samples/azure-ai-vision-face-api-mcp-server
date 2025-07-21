@@ -28,8 +28,8 @@ def get_face_dect(
 ):
     if file_path is None:
         return "The face api did not receive any image. Please provide an image."
-    ENDPOINT = os.getenv("FACE_ENDPOINT")
-    KEY = os.getenv("FACE_API_KEY")
+    ENDPOINT = os.getenv("AZURE_FACE_ENDPOINT")
+    KEY = os.getenv("AZURE_FACE_API_KEY")
     face_atributes = []
     if return_HEAD_POSE is True:
         face_atributes.append(FaceAttributeType.HEAD_POSE)
@@ -75,7 +75,7 @@ def get_face_dect(
     results = []
     for face in detected_faces:
         result = f"""
-        Azure AI Face API Dection Results: {face}
+        Azure AI Face API Detection Results: {face}
         """
         results.append(result)
     return "\n---\n".join(results)
