@@ -1,5 +1,5 @@
 # Azure AI Vision Face API MCP Server
-Introducing a Face Detection and Recognition MCP Server to allow the embedding of face attribute detection and similar face recognition during Agentic AI workflows.
+Introducing a Face Detection and Recognition MCP Server to allow the embedding of face attribute detection and face recognition during Agentic AI workflows.
 
 
 ## Face Detection and Recognition API
@@ -34,7 +34,7 @@ git clone https://github.com/Azure-Samples/azure-ai-vision-face-api-mcp-server.g
 
 #### 5. Interact with our MCP tools using Visual Studio Code GitHub Copilot
 - Install [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) Visual Studio Code extension.
-- Rename the file `.vscode/mcp-bp.json` to `.vscode/mcp.json` and press `Start` above the `azure_ai_vision_face_api_mcp_server` in `.vscode/mcp.json`.
+- Rename the file `.vscode/mcp-bp.json` to `.vscode/mcp.json` (or copy `.vscode/mcp-bp.json` to your existing `.vscode/mcp.json`) and press `Start` above the `azure_ai_vision_face_api_mcp_server` in `.vscode/mcp.json`.
 - Follow this [guide](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_add-an-mcp-server) to add our MCP tools in the workspace and [start a conversation with GitHub Copilot](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_use-mcp-tools-in-agent-mode) and use MCP tools in agent mode leveraging GPT-4.1.
 
 ## Example Prompts
