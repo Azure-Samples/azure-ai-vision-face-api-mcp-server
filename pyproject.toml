@@ -1,7 +1,7 @@
 [project]
 name = "azure-ai-vision-face-api-mcp-server"
 version = "1.0.0"
-description = "A Face Detection and Recognition MCP Server to allow the embedding of face attribute detection and similar face recognition during Agentic AI workflows."
+description = "A Face Detection and Recognition MCP Server to allow the embedding of face attribute detection and face recognition during Agentic AI workflows."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE.md"]
