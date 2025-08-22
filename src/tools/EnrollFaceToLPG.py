@@ -1,4 +1,3 @@
-
 import os
 from typing import Annotated
 
@@ -16,23 +15,38 @@ from .utils._enums import EnrollFaceToLPGConfig
 
 
 def enroll_face_to_group(
-    file_path_list: Annotated[list, Field(description=EnrollFaceToLPGConfig.ARGS_FILE_PATH_LIST)],
-    person_name: Annotated[str, Field(description=EnrollFaceToLPGConfig.ARGS_PERSON_NAME)],
-    group_uuid: Annotated[str, Field(description=EnrollFaceToLPGConfig.ARGS_GROUP_UUID)],
-    is_url: Annotated[bool, Field(description=EnrollFaceToLPGConfig.ARGS_IS_URL)] = False,
-    check_quality: Annotated[bool, Field(description=EnrollFaceToLPGConfig.ARGS_CHECK_QUALITY)] = True
+    file_path_list: Annotated[
+        list, Field(description=EnrollFaceToLPGConfig.ARGS_FILE_PATH_LIST)
+    ],
+    person_name: Annotated[
+        str, Field(description=EnrollFaceToLPGConfig.ARGS_PERSON_NAME)
+    ],
+    group_uuid: Annotated[
+        str, Field(description=EnrollFaceToLPGConfig.ARGS_GROUP_UUID)
+    ],
+    is_url: Annotated[
+        bool, Field(description=EnrollFaceToLPGConfig.ARGS_IS_URL)
+    ] = False,
+    check_quality: Annotated[
+        bool, Field(description=EnrollFaceToLPGConfig.ARGS_CHECK_QUALITY)
+    ] = True,
 ):
     ENDPOINT = os.getenv("AZURE_FACE_ENDPOINT")
     KEY = os.getenv("AZURE_FACE_API_KEY")
     UUID = group_uuid
     output_list = []
-    with FaceAdministrationClient(
-        endpoint=ENDPOINT, credential=AzureKeyCredential(KEY), 
-        headers = {"X-MS-AZSDK-Telemetry": "sample=mcp-face-reco-enroll"}
-    ) as face_admin_client, FaceClient(
-        endpoint=ENDPOINT, credential=AzureKeyCredential(KEY), 
-        headers = {"X-MS-AZSDK-Telemetry": "sample=mcp-face-reco-detect-for-enroll"}
-    ) as face_client:
+    with (
+        FaceAdministrationClient(
+            endpoint=ENDPOINT,
+            credential=AzureKeyCredential(KEY),
+            headers={"X-MS-AZSDK-Telemetry": "sample=mcp-face-reco-enroll"},
+        ) as face_admin_client,
+        FaceClient(
+            endpoint=ENDPOINT,
+            credential=AzureKeyCredential(KEY),
+            headers={"X-MS-AZSDK-Telemetry": "sample=mcp-face-reco-detect-for-enroll"},
+        ) as face_client,
+    ):
         # add person name to the large person group
         new_person = face_admin_client.large_person_group.create_person(
             large_person_group_id=UUID,
@@ -80,9 +94,10 @@ def enroll_face_to_group(
                 filtered_faces = detected_faces
             else:
                 filtered_faces = [
-                    face for face in detected_faces
-                    if face.face_attributes.quality_for_recognition ==
-                    QualityForRecognition.HIGH
+                    face
+                    for face in detected_faces
+                    if face.face_attributes.quality_for_recognition
+                    == QualityForRecognition.HIGH
                 ]
             if len(filtered_faces) < 1:
                 output_list.append(
@@ -113,7 +128,7 @@ def enroll_face_to_group(
                     f"(bounding box: {detected_face.face_rectangle})."
                 )
             if is_url:
-                face_admin_client.large_person_group.add_face_from_url(
+                persisted_face = face_admin_client.large_person_group.add_face_from_url(
                     large_person_group_id=UUID,
                     person_id=new_person.person_id,
                     url=file_path,
@@ -126,7 +141,7 @@ def enroll_face_to_group(
                     detection_model=FaceDetectionModel.DETECTION03,
                 )
             else:
-                face_admin_client.large_person_group.add_face(
+                persisted_face = face_admin_client.large_person_group.add_face(
                     large_person_group_id=UUID,
                     person_id=new_person.person_id,
                     image_content=open(file_path, "rb"),
@@ -141,7 +156,7 @@ def enroll_face_to_group(
             output_list.append(
                 f"Add image file: {file_path} to person name: {person_name} "
                 f"with person id: {new_person.person_id} in the group with "
-                f"group UUID {UUID}"
+                f"group UUID {UUID}. Persisted face ID: {persisted_face.persisted_face_id}"
             )
             poller = face_admin_client.large_person_group.begin_train(
                 large_person_group_id=UUID,

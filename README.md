@@ -47,6 +47,10 @@ git clone https://github.com/Azure-Samples/azure-ai-vision-face-api-mcp-server.g
 - Rename the file `.vscode/mcp-bp.json` to `.vscode/mcp.json` (or copy `.vscode/mcp-bp.json` to your existing `.vscode/mcp.json`) and press `Start` above the `azure_ai_vision_face_api_mcp_server` in `.vscode/mcp.json`.
 - Follow this [guide](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_add-an-mcp-server) to add our MCP tools in the workspace and [start a conversation with GitHub Copilot](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_use-mcp-tools-in-agent-mode) and use MCP tools in agent mode leveraging GPT-4.1.
 
+#### 7. (Optional) Prepare Environment for Local Testing
+- Before running pytest or other scripts outside of MCP, copy `.env.example` to `.env`.
+- Fill in your real keys in `.env`. These keys are the same as those used in `.vscode/mcp.json`.
+
 ## Example Prompts
 - You may be prompted to agree to use the MCP tool the first time you use each MCP tool. Please press `Continue` to proceed.
 ### Face Attribute Detection

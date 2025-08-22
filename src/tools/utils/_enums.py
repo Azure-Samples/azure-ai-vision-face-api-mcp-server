@@ -9,7 +9,9 @@ class CompareImagesConfig(str, Enum):
     ARGS_IS_SOURCE_IMAGE_URL = "Whether the source image is a remote file URL or a local file path. YOU (MCP) should set this to True if the source image is a URL, otherwise set it to False."
     ARGS_IS_TARGET_IMAGE_URL = "Whether the target image is a remote file URL or a local file path. YOU (MCP) should set this to True if the target image is a URL, otherwise set it to False."
     ARGS_COMPARISON_MODE = "The mode of comparison: 'largest_face', 'most_similar', or 'exhaustive'. When source_image or target_image contains more than one face, 'exhaustive' will compare all faces in both images, 'most_similar' will use the find_similar API to determine the best match for each face in the source image, and 'largest_face' will compare only the largest face in each image. YOU (MCP) must ask the user to choose one of these modes for each comparison with detail explanation for each mode."
-    ARGS_THRESHOLD = "The threshold for determining if two faces are identical. Default is 0.5."
+    ARGS_THRESHOLD = (
+        "The threshold for determining if two faces are identical. Default is 0.5."
+    )
 
 
 class CreateLPGConfig(str, Enum):
@@ -23,7 +25,9 @@ class EnrollFaceToLPGConfig(str, Enum):
     ARGS_FILE_PATH_LIST = "A list of absolute file paths to the image files. If the file_path is the local file path, complete and fix the file_path. If the file_path is the remote file_path URL, set is_url to True."
     ARGS_IS_URL = "Whether the file_path is a remote file URL or a local file path. YOU (MCP) should set this to True if the file_path is a URL, otherwise set it to False."
     ARGS_PERSON_NAME = "The human-readable name of the person to be enrolled."
-    ARGS_GROUP_UUID = "The UUID of the person group to which the person will be enrolled."
+    ARGS_GROUP_UUID = (
+        "The UUID of the person group to which the person will be enrolled."
+    )
     ARGS_CHECK_QUALITY = "Whether to check the quality of the images before enrolling. Default is True. If set to True, the function will check if the images are suitable for face recognition and will not enroll if the quality is insufficient."
 
 
@@ -33,6 +37,27 @@ class IdentifyFaceInLPGConfig(str, Enum):
     ARGS_FILE_PATH = "The absolute file path to the image file. If the file_path is the local file path, complete and fix the file_path. If the file_path is the remote file_path URL, set is_url to True."
     ARGS_GROUP_UUID = "The UUID of the person group in which to identify the face."
     ARGS_IS_URL = "Whether the file_path is a remote file URL or a local file path. YOU (MCP) should set this to True if the file_path is a URL, otherwise set it to False."
+
+
+class ListPersonsInLPGConfig(str, Enum):
+    TOOL_NAME = "azure_face_recognition_list_persons"
+    TOOL_DESC = "List all persons and number of faces per person in a specific large person group."
+    ARGS_GROUP_UUID = "The UUID of the person group to list persons and face counts."
+
+
+class DeletePersonFromLPGConfig(str, Enum):
+    TOOL_NAME = "azure_face_recognition_delete_person"
+    TOOL_DESC = "Delete a person from a specific large person group leveraging the azure ai face recognition API."
+    ARGS_PERSON_ID = "The ID of the person to delete."
+    ARGS_GROUP_UUID = "The UUID of the person group from which to delete the person."
+
+
+class DeleteFaceFromLPGConfig(str, Enum):
+    TOOL_NAME = "azure_face_recognition_delete_face"
+    TOOL_DESC = "Delete a face from a specific person in a large person group leveraging the azure ai face recognition API."
+    ARGS_FACE_ID = "The persisted face ID of the face to delete."
+    ARGS_PERSON_ID = "The ID of the person from which to delete the face."
+    ARGS_GROUP_UUID = "The UUID of the person group from which to delete the face."
 
 
 class OpensetFaceAttribConfig(str, Enum):
@@ -58,7 +83,9 @@ class AzureFaceAttribConfig(str, Enum):
     ARGS_RETURN_MASK = "Whether to return mask information. Default is False. The information is Whether each face is wearing a mask. Mask type returns 'noMask', 'faceMask', 'otherMaskOrOcclusion', or 'uncertain'. Value returns a boolean 'noseAndMouthCovered' indicating whether nose and mouth are covered."
     ARGS_RETURN_QUALITY_FOR_RECOGNITION = "Whether to return quality for recognition information. Default is False. The information is The overall image quality regarding whether the image being used in the detection is of sufficient quality to attempt face recognition on. The value is an informal rating of low, medium, or high. Only 'high' quality images are recommended for person enrollment and quality at or above 'medium' is recommended for identification scenarios."
     ARGS_RETURN_AGE = "Whether to return age information. Default is False. The information is Age in years."
-    ARGS_RETURN_LANDMARKS = "Whether to return Facial landmarks information. Default is False."
+    ARGS_RETURN_LANDMARKS = (
+        "Whether to return Facial landmarks information. Default is False."
+    )
 
 
 class ListBlobFoldersConfig(str, Enum):
@@ -77,13 +104,17 @@ class ListBlobFoldersConfig(str, Enum):
 
 class ListPublicImageUrlsConfig(str, Enum):
     TOOL_NAME = "azure_blob_list_public_image_urls"
-    TOOL_DESC = "List all public image URLs in the specified folder in the Azure Blob container."
-    ARGS_FOLDER_NAME = "The name of the folder (virtual directory) in the blob container."
+    TOOL_DESC = "List all public image URLs in the specified folder in the Azure Blob container. Don't try to modify or shorten any URLs."
+    ARGS_FOLDER_NAME = (
+        "The name of the folder (virtual directory) in the blob container."
+    )
 
 
 class DownloadBlobFolderConfig(str, Enum):
     TOOL_NAME = "azure_blob_download_folder"
     TOOL_DESC = "Download all blobs (files) from the specified folder in the Azure Blob container to a local directory, preserving the same subfolder structure as in the storage."
-    ARGS_FOLDER_NAME = "The name of the folder (virtual directory) in the blob container."
+    ARGS_FOLDER_NAME = (
+        "The name of the folder (virtual directory) in the blob container."
+    )
     ARGS_LOCAL_DIR = "The local directory where the files will be downloaded. Default is './downloaded_images'."
     RESULT_SUCCESS = "Downloaded {num_files} files from folder '{folder_name}' to '{local_dir}'.\nFiles:\n{file_list}"
