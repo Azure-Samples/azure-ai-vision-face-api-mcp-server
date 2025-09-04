@@ -51,6 +51,30 @@ git clone https://github.com/Azure-Samples/azure-ai-vision-face-api-mcp-server.g
 - Before running pytest or other scripts outside of MCP, copy `.env.example` to `.env`.
 - Fill in your real keys in `.env`. These keys are the same as those used in `.vscode/mcp.json`.
 
+#### 8. (Optional) MCP HTTP Bridge (Node/TypeScript)
+
+- This repo includes a small **HTTP bridge** in the `bridge/` folder.
+- The bridge launches the local **Azure Face MCP server** (via `uvx --from …`) using stdio and exposes a REST API for listing and calling MCP tools.
+- It makes the MCP server usable from **OpenAI Responses API** or any web frontend.
+- **Available endpoints**
+  - GET /health → { ok: true }
+  - GET /mcp/tools → list available MCP tools
+  - POST /mcp/call → call a tool by name with arguments
+**Usage**
+  ```bash
+  # Setup
+  cd bridge
+  npm install
+  cp .env.example .env   # fill in your environment values (see step 7 above)
+  npm run dev
+
+  # Examples:
+  # list all MCP tools
+  curl http://127.0.0.1:8787/mcp/tools
+  # list all large person groups
+  curl --% -X POST http://127.0.0.1:8787/mcp/call -H "Content-Type: application/json" -d "{ \"name\": \"azure_face_recognition_list_large_person_groups\", \"arguments\": {} }"
+  ```
+
 ## Example Prompts
 - You may be prompted to agree to use the MCP tool the first time you use each MCP tool. Please press `Continue` to proceed.
 ### Face Attribute Detection

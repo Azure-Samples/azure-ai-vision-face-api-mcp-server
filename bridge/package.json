@@ -1,0 +1,20 @@
+{
+  "name": "face-mcp-bridge",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx server/mcp-bridge.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.5",
+    "dotenv": "^17.2.2",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.3",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.30",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.4"
+  }
+}
