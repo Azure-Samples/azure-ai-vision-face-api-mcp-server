@@ -1,8 +1,7 @@
 # Azure AI Vision Face API MCP Server
 Introducing a Face Detection and Recognition MCP Server to allow the embedding of face attribute detection and face recognition during Agentic AI workflows.
 
-
-https://raw.githubusercontent.com/Azure-Samples/azure-ai-vision-face-api-mcp-server/refs/heads/main/assets/MCP_Intro.mp4
+https://github.com/user-attachments/assets/dac4ef24-2043-47a2-8858-c965970254f9
 
 ## Face Detection and Recognition API
 For more information, visit [Face API](https://learn.microsoft.com/en-us/rest/api/face/operation-groups?view=rest-face-v1.2)
