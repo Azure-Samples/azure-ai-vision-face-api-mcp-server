@@ -39,13 +39,14 @@ def compare_source_image_to_target_image(
         else:
             if not os.path.exists(source_image):
                 return f"Image file: {source_image} does not exist."
-            
-            detected_faces_source = face_client.detect(
-                image_content=open(source_image, "rb"),
-                detection_model=FaceDetectionModel.DETECTION03,
-                recognition_model=FaceRecognitionModel.RECOGNITION04,
-                return_face_id=True,
-            )
+
+            with open(source_image, "rb") as image_stream:
+                detected_faces_source = face_client.detect(
+                    image_content=image_stream,
+                    detection_model=FaceDetectionModel.DETECTION03,
+                    recognition_model=FaceRecognitionModel.RECOGNITION04,
+                    return_face_id=True,
+                )
         if len(detected_faces_source) < 1:
             return (
                 f"Image file: {source_image} does not contain any "
@@ -63,13 +64,14 @@ def compare_source_image_to_target_image(
         else:
             if not os.path.exists(target_image):
                 return f"Image file: {target_image} does not exist."
-            
-            detected_faces_target = face_client.detect(
-                image_content=open(target_image, "rb"),
-                detection_model=FaceDetectionModel.DETECTION03,
-                recognition_model=FaceRecognitionModel.RECOGNITION04,
-                return_face_id=True,
-            )
+
+            with open(target_image, "rb") as image_stream:
+                detected_faces_target = face_client.detect(
+                    image_content=image_stream,
+                    detection_model=FaceDetectionModel.DETECTION03,
+                    recognition_model=FaceRecognitionModel.RECOGNITION04,
+                    return_face_id=True,
+                )
         if len(detected_faces_target) < 1:
             return (
                 f"Image file: {target_image} does not contain any "

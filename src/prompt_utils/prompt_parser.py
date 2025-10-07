@@ -110,7 +110,7 @@ class ParsedEnroll:
 _ENROLL_RE = re.compile(
     rf"""
     \benroll\s+(?:the\s+)?face[s]?\s+in\s+
-    (?P<file>{_LOCAL_IMG_RE}|{_URL_RE}(?:\s*,\s*{_LOCAL_IMG_RE}|{_URL_RE})*)
+    (?P<file>(?:{_LOCAL_IMG_RE}|{_URL_RE})(?:\s*,\s*(?:{_LOCAL_IMG_RE}|{_URL_RE}))*)
     \s+to\s+(?:the\s+)?person\s+group\s+['"]?(?P<group>[\w\-]+)['"]?
     \s+as\s+['"]?(?P<person>[\w\-]+)['"]?
     """,
