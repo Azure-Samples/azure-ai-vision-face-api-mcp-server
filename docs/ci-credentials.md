@@ -17,7 +17,7 @@ Follow these steps to let the GitHub Actions workflow run the live Azure Face AP
 > 💡 **Tip:** If you are configuring credentials for a fork, you must add the secrets in the forked repository's settings because secrets do not carry over from the upstream repository.
 
 ## 3. Trigger the CI workflow
-1. Push a commit or open a pull request against a branch tracked by the workflow (the default is `main`/`master`).
+1. Push a commit or open a pull request against a branch tracked by the workflow (the default is `main`/`master`). If you already pushed a change before adding secrets, you can instead open the **Actions** tab, choose the **CI** workflow, and run it manually with the **Run workflow** button.
 2. GitHub Actions injects the secrets into the workflow as the `AZURE_FACE_ENDPOINT` and `AZURE_FACE_API_KEY` environment variables.
 3. When `pytest` runs, the integration tests detect that the environment variables are populated and execute the live Azure Face API checks.
 

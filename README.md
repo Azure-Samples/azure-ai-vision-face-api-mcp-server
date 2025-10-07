@@ -59,7 +59,7 @@ Follow the detailed walkthrough in [`docs/ci-credentials.md`](docs/ci-credential
 
 1. In your GitHub repository, navigate to **Settings → Secrets and variables → Actions**.
 2. Add repository secrets named `AZURE_FACE_ENDPOINT` and `AZURE_FACE_API_KEY` using the values from your Azure Face resource.
-3. On the next push or pull request, the CI workflow exports these secrets as environment variables so that `pytest` executes the live tests alongside the rest of the suite.
+3. On the next push or pull request, the CI workflow exports these secrets as environment variables so that `pytest` executes the live tests alongside the rest of the suite. If you already pushed your changes, open the **Actions → CI** page and click **Run workflow** to start a credential-enabled test run immediately.
 
 #### 8. (Optional) MCP HTTP Bridge (Node/TypeScript)
 
