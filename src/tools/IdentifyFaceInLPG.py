@@ -31,13 +31,14 @@ def identify_face_from_group(
         else:
             if not os.path.exists(file_path):
                 return f"Image file: {file_path} does not exist."
-            
-            faces = face_client.detect(
-                image_content=open(file_path, "rb"),
-                detection_model=FaceDetectionModel.DETECTION03,
-                recognition_model=FaceRecognitionModel.RECOGNITION04,
-                return_face_id=True,
-            )
+
+            with open(file_path, "rb") as image_stream:
+                faces = face_client.detect(
+                    image_content=image_stream,
+                    detection_model=FaceDetectionModel.DETECTION03,
+                    recognition_model=FaceRecognitionModel.RECOGNITION04,
+                    return_face_id=True,
+                )
         if len(faces) == 0:
             return f"No face detected in the provided image file: {file_path}"
         else:

@@ -99,15 +99,16 @@ def enroll_face_to_group(
                         f"Image file: {file_path} does not exist. Ignoring this image."
                     )
                     continue
-                detected_faces = face_client.detect(
-                    image_content=open(file_path, "rb"),
-                    detection_model=FaceDetectionModel.DETECTION03,
-                    recognition_model=FaceRecognitionModel.RECOGNITION04,
-                    return_face_id=True,
-                    return_face_attributes=[
-                        FaceAttributeTypeRecognition04.QUALITY_FOR_RECOGNITION
-                    ],
-                )
+                with open(file_path, "rb") as image_stream:
+                    detected_faces = face_client.detect(
+                        image_content=image_stream,
+                        detection_model=FaceDetectionModel.DETECTION03,
+                        recognition_model=FaceRecognitionModel.RECOGNITION04,
+                        return_face_id=True,
+                        return_face_attributes=[
+                            FaceAttributeTypeRecognition04.QUALITY_FOR_RECOGNITION
+                        ],
+                    )
             detected_face = None
             if len(detected_faces) < 1:
                 output_list.append(
@@ -167,19 +168,20 @@ def enroll_face_to_group(
                     user_data=json.dumps({"file_path": file_path.split("?")[0]}),
                 )
             else:
-                persisted_face = face_admin_client.large_person_group.add_face(
-                    large_person_group_id=UUID,
-                    person_id=new_person.person_id,
-                    image_content=open(file_path, "rb"),
-                    target_face=[
-                        detected_face.face_rectangle.left,
-                        detected_face.face_rectangle.top,
-                        detected_face.face_rectangle.width,
-                        detected_face.face_rectangle.height,
-                    ],
-                    detection_model=FaceDetectionModel.DETECTION03,
-                    user_data=json.dumps({"file_path": file_path}),
-                )
+                with open(file_path, "rb") as image_stream:
+                    persisted_face = face_admin_client.large_person_group.add_face(
+                        large_person_group_id=UUID,
+                        person_id=new_person.person_id,
+                        image_content=image_stream,
+                        target_face=[
+                            detected_face.face_rectangle.left,
+                            detected_face.face_rectangle.top,
+                            detected_face.face_rectangle.width,
+                            detected_face.face_rectangle.height,
+                        ],
+                        detection_model=FaceDetectionModel.DETECTION03,
+                        user_data=json.dumps({"file_path": file_path}),
+                    )
             output_list.append(
                 f"Add image file: {file_path} to person name: {person_name} "
                 f"with person id: {new_person.person_id} in the group with "

@@ -38,13 +38,14 @@ def get_face_openset_attrib(
         else:
             if not os.path.exists(file_path):
                 return f"Image file: {file_path} does not exist."
-            
-            detected_faces = face_client.detect(
-                image_content=open(file_path, "rb"),
-                detection_model=FaceDetectionModel.DETECTION03,
-                recognition_model=FaceRecognitionModel.RECOGNITION04,
-                return_face_id=True,
-            )
+
+            with open(file_path, "rb") as image_stream:
+                detected_faces = face_client.detect(
+                    image_content=image_stream,
+                    detection_model=FaceDetectionModel.DETECTION03,
+                    recognition_model=FaceRecognitionModel.RECOGNITION04,
+                    return_face_id=True,
+                )
     azure_client = AzureOpenAI(
         api_version="2025-03-01-preview",
         api_key=os.getenv('AZURE_OPENAI_API_KEY'),
