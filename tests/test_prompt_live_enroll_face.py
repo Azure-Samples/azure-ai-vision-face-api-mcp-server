@@ -10,7 +10,11 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 from prompt_utils.prompt_dispatch import dispatch_prompt_enroll
 from tools.CreateLPG import create_large_person_group
 from tools.ListPersonsInLPG import list_persons_in_group
-from tools.DeleteFromLPG import delete_person_from_group, delete_face_from_group
+from tools.DeleteFromLPG import (
+    delete_person_from_group,
+    delete_face_from_group,
+    _CONFIRM_WORD,
+)
 
 
 def _find_file_upwards(filename: str, start: pathlib.Path) -> pathlib.Path | None:
@@ -87,7 +91,13 @@ def test_live_delete_person_from_group(monkeypatch, face_credentials):
     match = re.search(r"person id: ([a-f0-9\-]{36})", str(result_raw))
     assert match is not None, "Person ID not found in result"
     person_id = match.group(1)
-    delete_result = delete_person_from_group(person_id, group_id, confirm=True)
+    confirm_prompt = delete_person_from_group(person_id, group_id)
+    assert isinstance(confirm_prompt, dict)
+    assert confirm_prompt.get("status") == "needs_confirmation"
+
+    delete_result = delete_person_from_group(
+        person_id, group_id, confirm_text=_CONFIRM_WORD
+    )
     assert f"Deleted person with ID: {person_id}" in str(delete_result)
 
 
@@ -107,5 +117,11 @@ def test_live_delete_face_from_group(monkeypatch, face_credentials):
     assert match_face is not None, "Persisted Face ID not found in result"
     face_id = match_face.group(1)
 
-    delete_result = delete_face_from_group(face_id, person_id, group_id, confirm=True)
+    confirm_prompt = delete_face_from_group(face_id, person_id, group_id)
+    assert isinstance(confirm_prompt, dict)
+    assert confirm_prompt.get("status") == "needs_confirmation"
+
+    delete_result = delete_face_from_group(
+        face_id, person_id, group_id, confirm_text=_CONFIRM_WORD
+    )
     assert f"Deleted face with ID: {face_id}" in str(delete_result)

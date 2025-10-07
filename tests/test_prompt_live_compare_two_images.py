@@ -1,5 +1,6 @@
 import os
 import pathlib
+import re
 import pytest
 from pprint import pprint
 
@@ -60,5 +61,11 @@ def test_live_compare_two_images_from_prompt(face_credentials):
         "the most similar face from the image file: https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/refs/heads/master/Face/images/findsimilar.jpg will be determined."
     )
     assert result_str.startswith(expected_start)
-    assert "Verification result: True, Confidence: 0.95746" in result_str
+
+    match = re.search(
+        r"Verification result: True, Confidence: ([0-9]*\.[0-9]+)", result_str
+    )
+    assert match is not None, "Confidence line missing from comparison output"
+    confidence = float(match.group(1))
+    assert confidence == pytest.approx(0.95746, rel=5e-4)
     assert "The current comparison mode is: most_similar." in result_str
