@@ -12,19 +12,6 @@ from tools.CreateLPG import create_large_person_group
 from tools.ListPersonsInLPG import list_persons_in_group
 from tools.DeleteFromLPG import delete_person_from_group, delete_face_from_group
 
-endpoint = os.getenv("AZURE_FACE_ENDPOINT")
-key = os.getenv("AZURE_FACE_API_KEY")
-
-if not (endpoint and key):
-    print(
-        "❌ Live test skipped: Set AZURE_FACE_ENDPOINT and AZURE_FACE_API_KEY environment variables."
-    )
-
-LIVE = pytest.mark.skipif(
-    not (endpoint and key),
-    reason="Set AZURE_FACE_ENDPOINT and AZURE_FACE_API_KEY to run live tests",
-)
-
 
 def _find_file_upwards(filename: str, start: pathlib.Path) -> pathlib.Path | None:
     """Search upwards and in common sample folders for the given file."""
@@ -45,8 +32,7 @@ def _find_file_upwards(filename: str, start: pathlib.Path) -> pathlib.Path | Non
     return None
 
 
-@LIVE
-def test_live_enroll_face_from_local(monkeypatch):
+def test_live_enroll_face_from_local(monkeypatch, face_credentials):
     group_id = "test-group-local"
     create_large_person_group(group_id)
     prompt = f"Enroll the face in detection1.jpg to the person group '{group_id}' as 'test-person-local'"
@@ -68,8 +54,7 @@ def test_live_enroll_face_from_local(monkeypatch):
     assert "Add image file:" in result_str
 
 
-@LIVE
-def test_live_enroll_face_from_url(monkeypatch):
+def test_live_enroll_face_from_url(monkeypatch, face_credentials):
     group_id = "test-group-url"
     create_large_person_group(group_id)
     image_url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/Face/images/detection1.jpg"
@@ -80,8 +65,7 @@ def test_live_enroll_face_from_url(monkeypatch):
     assert "Add image file:" in result_str
 
 
-@LIVE
-def test_live_list_persons_in_group(monkeypatch):
+def test_live_list_persons_in_group(monkeypatch, face_credentials):
     group_id = "test-group-list"
     create_large_person_group(group_id)
     image_url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/Face/images/detection1.jpg"
@@ -94,8 +78,7 @@ def test_live_list_persons_in_group(monkeypatch):
     assert "Number of faces: 1" in result_str
 
 
-@LIVE
-def test_live_delete_person_from_group(monkeypatch):
+def test_live_delete_person_from_group(monkeypatch, face_credentials):
     group_id = "test-group-delete-person"
     create_large_person_group(group_id)
     image_url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/Face/images/detection1.jpg"
@@ -108,8 +91,7 @@ def test_live_delete_person_from_group(monkeypatch):
     assert f"Deleted person with ID: {person_id}" in str(delete_result)
 
 
-@LIVE
-def test_live_delete_face_from_group(monkeypatch):
+def test_live_delete_face_from_group(monkeypatch, face_credentials):
     group_id = "test-group-delete-face"
     create_large_person_group(group_id)
     image_url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/Face/images/detection1.jpg"

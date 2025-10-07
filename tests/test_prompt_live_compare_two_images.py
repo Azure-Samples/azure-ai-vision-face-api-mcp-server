@@ -5,19 +5,6 @@ from pprint import pprint
 
 from prompt_utils.prompt_dispatch import dispatch_prompt_compare
 
-endpoint = os.getenv("AZURE_FACE_ENDPOINT")
-key = os.getenv("AZURE_FACE_API_KEY")
-
-if not (endpoint and key):
-    print(
-        "❌ Live test skipped: Set AZURE_FACE_ENDPOINT and AZURE_FACE_API_KEY environment variables."
-    )
-
-LIVE = pytest.mark.skipif(
-    not (endpoint and key),
-    reason="Set AZURE_FACE_ENDPOINT and AZURE_FACE_API_KEY to run live tests",
-)
-
 
 def _find_file_upwards(filename: str, start: pathlib.Path) -> pathlib.Path | None:
     """Search upwards and in common sample folders for the given file."""
@@ -38,8 +25,7 @@ def _find_file_upwards(filename: str, start: pathlib.Path) -> pathlib.Path | Non
     return None
 
 
-@LIVE
-def test_live_compare_two_images_from_prompt():
+def test_live_compare_two_images_from_prompt(face_credentials):
     prompt = (
         "Compare the identification1.jpg with "
         "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/"
