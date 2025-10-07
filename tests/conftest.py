@@ -28,7 +28,18 @@ def _require_face_credentials() -> tuple[str, str]:
         pytest.fail(
             "Live tests require AZURE_FACE_ENDPOINT and AZURE_FACE_API_KEY environment variables."
         )
-    return endpoint, key
+    sanitized_endpoint = endpoint.strip()
+    sanitized_key = key.strip()
+    placeholder_markers = ("<", "example", "REPLACE", "YOUR", "{", "}")
+    if any(marker in sanitized_endpoint for marker in placeholder_markers):
+        pytest.fail(
+            "AZURE_FACE_ENDPOINT appears to be a placeholder. Provide the real endpoint before running live tests."
+        )
+    if any(marker in sanitized_key for marker in placeholder_markers):
+        pytest.fail(
+            "AZURE_FACE_API_KEY appears to be a placeholder. Provide the real key before running live tests."
+        )
+    return sanitized_endpoint, sanitized_key
 
 
 @pytest.fixture(scope="session")
