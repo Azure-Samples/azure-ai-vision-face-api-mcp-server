@@ -52,6 +52,15 @@ git clone https://github.com/Azure-Samples/azure-ai-vision-face-api-mcp-server.g
 - Before running pytest or other scripts outside of MCP, copy `.env.example` to `.env`.
 - Fill in your real keys in `.env`. These keys are the same as those used in `.vscode/mcp.json`.
 
+### Configure Credentials for CI Test Runs
+To run the live Face API integration tests in GitHub Actions, add your Azure Face resource credentials as repository secrets.
+
+Follow the detailed walkthrough in [`docs/ci-credentials.md`](docs/ci-credentials.md), or use the quick-start version below:
+
+1. In your GitHub repository, navigate to **Settings → Secrets and variables → Actions**.
+2. Add repository secrets named `AZURE_FACE_ENDPOINT` and `AZURE_FACE_API_KEY` using the values from your Azure Face resource.
+3. On the next push or pull request, the CI workflow exports these secrets as environment variables so that `pytest` executes the live tests alongside the rest of the suite. If you already pushed your changes, open the **Actions → CI** page and click **Run workflow** to start a credential-enabled test run immediately.
+
 #### 8. (Optional) MCP HTTP Bridge (Node/TypeScript)
 
 - This repo includes a small **HTTP bridge** in the `bridge/` folder.

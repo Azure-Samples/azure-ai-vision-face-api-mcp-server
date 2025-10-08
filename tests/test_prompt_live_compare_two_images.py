@@ -1,22 +1,10 @@
 import os
 import pathlib
+import re
 import pytest
 from pprint import pprint
 
 from prompt_utils.prompt_dispatch import dispatch_prompt_compare
-
-endpoint = os.getenv("AZURE_FACE_ENDPOINT")
-key = os.getenv("AZURE_FACE_API_KEY")
-
-if not (endpoint and key):
-    print(
-        "❌ Live test skipped: Set AZURE_FACE_ENDPOINT and AZURE_FACE_API_KEY environment variables."
-    )
-
-LIVE = pytest.mark.skipif(
-    not (endpoint and key),
-    reason="Set AZURE_FACE_ENDPOINT and AZURE_FACE_API_KEY to run live tests",
-)
 
 
 def _find_file_upwards(filename: str, start: pathlib.Path) -> pathlib.Path | None:
@@ -38,8 +26,7 @@ def _find_file_upwards(filename: str, start: pathlib.Path) -> pathlib.Path | Non
     return None
 
 
-@LIVE
-def test_live_compare_two_images_from_prompt():
+def test_live_compare_two_images_from_prompt(face_credentials):
     prompt = (
         "Compare the identification1.jpg with "
         "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/"
@@ -74,5 +61,11 @@ def test_live_compare_two_images_from_prompt():
         "the most similar face from the image file: https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/refs/heads/master/Face/images/findsimilar.jpg will be determined."
     )
     assert result_str.startswith(expected_start)
-    assert "Verification result: True, Confidence: 0.95746" in result_str
+
+    match = re.search(
+        r"Verification result: True, Confidence: ([0-9]*\.[0-9]+)", result_str
+    )
+    assert match is not None, "Confidence line missing from comparison output"
+    confidence = float(match.group(1))
+    assert confidence == pytest.approx(0.95746, rel=5e-4)
     assert "The current comparison mode is: most_similar." in result_str

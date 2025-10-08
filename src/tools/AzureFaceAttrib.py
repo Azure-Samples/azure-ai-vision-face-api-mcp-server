@@ -63,15 +63,16 @@ def get_face_dect(
         else:
             if os.path.exists(file_path) is False:
                 return "The client provided image does not exist in its path."
-            
-            detected_faces = face_client.detect(
-                image_content=open(file_path, "rb"),
-                detection_model=FaceDetectionModel.DETECTION03,
-                recognition_model=FaceRecognitionModel.RECOGNITION04,
-                return_face_id=True,
-                return_face_landmarks=return_landmarks,
-                return_face_attributes=face_atributes
-            )
+
+            with open(file_path, "rb") as image_stream:
+                detected_faces = face_client.detect(
+                    image_content=image_stream,
+                    detection_model=FaceDetectionModel.DETECTION03,
+                    recognition_model=FaceRecognitionModel.RECOGNITION04,
+                    return_face_id=True,
+                    return_face_landmarks=return_landmarks,
+                    return_face_attributes=face_atributes
+                )
     results = []
     for face in detected_faces:
         result = f"""

@@ -6,19 +6,6 @@ from pprint import pprint
 
 from prompt_utils.prompt_dispatch import dispatch_prompt_detect
 
-endpoint = os.getenv("AZURE_FACE_ENDPOINT")
-key = os.getenv("AZURE_FACE_API_KEY")
-
-if not (endpoint and key):
-    print(
-        "❌ Live test skipped: Set AZURE_FACE_ENDPOINT and AZURE_FACE_API_KEY environment variables."
-    )
-
-LIVE = pytest.mark.skipif(
-    not (endpoint and key),
-    reason="Set AZURE_FACE_ENDPOINT and AZURE_FACE_API_KEY to run live tests",
-)
-
 
 def _find_file_upwards(filename: str, start: pathlib.Path) -> pathlib.Path | None:
     """Search upwards and in common sample folders for the given file."""
@@ -39,8 +26,9 @@ def _find_file_upwards(filename: str, start: pathlib.Path) -> pathlib.Path | Non
     return None
 
 
-@LIVE
-def test_live_detect_mask_or_glasses_from_prompt_local(monkeypatch):
+def test_live_detect_mask_or_glasses_from_prompt_local(
+    monkeypatch, face_credentials
+):
     prompt = "Check all the faces inside detection1.jpg wearing the mask or glasses"
 
     repo_root = pathlib.Path(__file__).resolve().parents[1]
@@ -90,8 +78,7 @@ def test_live_detect_mask_or_glasses_from_prompt_local(monkeypatch):
     print("Mask:", attrs["mask"])
 
 
-@LIVE
-def test_live_detect_mask_or_glasses_from_prompt_url(monkeypatch):
+def test_live_detect_mask_or_glasses_from_prompt_url(monkeypatch, face_credentials):
     # Use a public image URL with faces, mask or glasses for testing
     image_url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/Face/images/detection1.jpg"
     prompt = f"Check all the faces inside {image_url} wearing the mask or glasses"
