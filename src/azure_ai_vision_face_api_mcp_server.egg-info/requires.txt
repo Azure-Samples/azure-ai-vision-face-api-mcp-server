@@ -1,6 +1,0 @@
-azure-ai-vision-face>=1.0.0b2
-fastmcp>=2.10.5
-openai>=1.97.0
-opencv-python>=4.12.0.88
-azure-storage-blob>=12.26.0
-pytest>=8.4.1

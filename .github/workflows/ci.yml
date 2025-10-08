@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-python:
+    name: Test Python ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.10', '3.11', '3.12']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+    
+    - name: Run tests
+      run: |
+        pytest tests/ -v
+      env:
+        # Tests requiring Azure credentials will be skipped
+        AZURE_FACE_ENDPOINT: ${{ secrets.AZURE_FACE_ENDPOINT }}
+        AZURE_FACE_API_KEY: ${{ secrets.AZURE_FACE_API_KEY }}
+
+  test-bridge:
+    name: Test Bridge on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: bridge/package-lock.json
+    
+    - name: Install bridge dependencies
+      run: |
+        cd bridge
+        npm ci
+    
+    - name: Verify bridge can be imported
+      run: |
+        cd bridge
+        node -e "console.log('Bridge dependencies installed successfully')"

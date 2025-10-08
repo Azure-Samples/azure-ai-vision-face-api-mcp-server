@@ -1,2 +1,0 @@
-[console_scripts]
-azure-face-mcp = mcpServer:run_server
