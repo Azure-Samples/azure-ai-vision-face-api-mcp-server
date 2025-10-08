@@ -4,3 +4,7 @@ uv.lock
 .venv
 .env
 bridge/node_modules/
+*.egg-info/
+.pytest_cache/
+dist/
+build/
