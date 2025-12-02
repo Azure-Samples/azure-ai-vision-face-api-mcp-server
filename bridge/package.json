@@ -8,7 +8,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.5",
     "dotenv": "^17.2.2",
-    "express": "^4.19.2"
+    "express": "^4.22.1"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
